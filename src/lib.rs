@@ -10,7 +10,7 @@ mod tests {
     fn it_works() {
         assert_eq!(2 + 2, 4);
         let exec = exec(
-            "mysql://root:4141@localhost:3306/apack_asobi",
+            "mysql://root:{PSWD}@localhost:3306/{DB_NAME}",
             "SELECT * FROM users WHERE name=? OR name=? OR name=?",
             vec!["unko".to_string(), "tekou".to_string()]);
         println!("{:?}", exec);
