@@ -11,12 +11,12 @@ mys_wrapper = { git="https://github.com/0x79756b69/mys_wrapper", branch="main" }
 ```rust
 fn main() {
     use crate::{exec};
-    let json = exec(
+    let maps:Vec<HashMap<String, String>> = exec(
         "mysql://root:{PSWD}@localhost:3306/{DB_NAME}",
         "SELECT * FROM users WHERE name=? AND pswd = ?",
         vec!["Bob".to_string(), "PASSWORD_123".to_string()]).unwrap();
-    // This output json as string.
-    println!("{:?}", json);
+    // This output hashmaps.
+    println!("{:?}", maps);
 }
 ```
 
