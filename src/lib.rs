@@ -1,4 +1,4 @@
-use mysql::{Params, Pool, PooledConn, Row, Value, from_value};
+use mysql::{Params, Pool, PooledConn, Row, Value, from_value, Opts};
 use mysql::prelude::Queryable;
 use std::collections::HashMap;
 
@@ -57,10 +57,15 @@ pub fn exec<T: AsRef<str>, U: AsRef<str>>(db_url: T, sql:U, params: Vec<String> 
 /// url: like "mysql://root:PSWD@localhost:3306/example"
 /// connect to db using pool
 pub fn pool_connect<T: AsRef<str>>(url: T) -> Result<PooledConn, String> {
-    match Pool::new(url) {
-        Ok(pool) => {
-            match pool.get_conn() {
-                Ok(s) => Ok(s),
+    return match Opts::from_url(url.as_ref()) {
+        Ok(opts) => {
+            match Pool::new(opts) {
+                Ok(pool) => {
+                    match pool.get_conn() {
+                        Ok(s) => Ok(s),
+                        Err(e) => Err(e.to_string())
+                    }
+                },
                 Err(e) => Err(e.to_string())
             }
         },
